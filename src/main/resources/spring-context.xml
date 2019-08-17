@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<bean id="instrumentalist"
+		class="apim.github.tutorial.Instrumentalist"></bean>
+	<bean id="audience" class="apim.github.tutorial.Audience"></bean>
+
+	<aop:config>
+		<aop:pointcut id="testPointCut" expression="execution(* apim.github.tutorial.Instrumentalist.sing())" />
+		<aop:aspect ref="audience">
+			<aop:before method="takeSeat" pointcut-ref="testPointCut" />
+			<aop:before method="switchOffPhone" pointcut-ref="testPointCut" />
+			<aop:after method="lightsOn" pointcut-ref="testPointCut" />
+			<aop:after-returning method="applaud" pointcut-ref="testPointCut" />
+			<aop:after-throwing method="demandRefund" pointcut-ref="testPointCut" />
+		</aop:aspect>
+	</aop:config>
+</beans>
